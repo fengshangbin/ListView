@@ -21,7 +21,7 @@ GitHub Pages: https://github.com/fengshangbin/ListView
 定义一个数据源
 ```
 var dataSource = [1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4];
-var adapter = new C3ListView.adapter(dataSource);//参数为数组，可选
+var adapter = new C3ListView.adapter(dataSource);//参数为数组，可选 
 ```
 定义子项html视图
 ```
