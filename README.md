@@ -69,14 +69,14 @@ adapter.getLoadingHtml = function(){
 ```
 listView.addEventListener("touchbottom",function(e){ //顶部上滑对应touchtop
 	console.log("touchbottom");
-		window.setTimeout(function(){
+	window.setTimeout(function(){
 		adapter.appendData([1,2,3,4]);
 	},2000);
 });
 ```
 设置当前为最后一页
 ```
-adapter.isLastPage=true; //第一页对应isFirstPage
+adapter.isLastPage = true; //第一页对应isFirstPage
 ```
 设置/重置数据源
 ```
