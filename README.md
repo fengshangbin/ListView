@@ -43,7 +43,9 @@ var ct = document.getElementById("container");
 var listView = new C3ListView.builder(ct, adapter);
 ```
 到此这样就可以运行ListView了
-[示例](https://github.com/fengshangbin/ListView/blob/master/examples/list-scroll-div.html)
+[示例](http://htmlpreview.github.io/?https://github.com/fengshangbin/ListView/blob/master/examples/list-scroll-window.html)
+示例二维码
+![示例二维码]()
 # 更多功能
 设置数据loading视图
 ```
