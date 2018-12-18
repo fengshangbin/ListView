@@ -42,7 +42,7 @@ adapter.getHtml = function(position){
 var ct = document.getElementById("container");
 var listView = new C3ListView.builder(ct, adapter);
 ```
-到此这样就可以运行ListView了  
+这样就可以运行ListView了  
 [示例](http://htmlpreview.github.io/?https://github.com/fengshangbin/ListView/blob/master/examples/list-scroll-window.html)  
 示例二维码  
 ![示例二维码](https://raw.githubusercontent.com/fengshangbin/ListView/master/be1c35d704b66028c9660d97c4373d87.png)
