@@ -1,6 +1,6 @@
 #  ListView
-H5 ListView Component By Virtual DOM
-H5 ListView组件，支持超大数据列表流畅运行。子项无需指定高度
+H5 ListView Component By Virtual DOM And No Need Set Item Height  
+H5 ListView组件，支持超大数据列表流畅运行。子项无需指定高度  
 GitHub Pages: https://github.com/fengshangbin/ListView
 #  设计理念
 不依赖第三方框架，也无不侵入，压缩后js只有10KB，类似安卓原生ListView的使用方式。
