@@ -19,7 +19,7 @@ GitHub Pages: https://github.com/fengshangbin/ListView
 <script src="c3listview.js"></script>
 ```
 定义一个数据源
-```
+```javascript
 var dataSource = [1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4];
 var adapter = new C3ListView.adapter(dataSource);//参数为数组，可选 
 ```
