@@ -11,11 +11,11 @@ GitHub Pages: https://github.com/fengshangbin/ListView
 4. 仿安卓原生ListView的使用方式，使用简单
 #  如何使用
 页面定义ListView容器
-```
+```html
 <div id="container"></div>
 ```
 引入js文件
-```
+```html
 <script src="c3listview.js"></script>
 ```
 定义一个数据源
@@ -24,14 +24,14 @@ var dataSource = [1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4,1,2,3,4];
 var adapter = new C3ListView.adapter(dataSource);//参数为数组，可选 
 ```
 定义子项html视图
-```
+```javascript
 adapter.getHtml = function(position){
     var data = adapter.getData(position);
     return "<div data-position=\""+position+"\">"+data+"</div>";
 }
 ```
 关联ListView容器
-```
+```javascript
 /*
     container: ListView子项的容器
     adapter: 数据源
@@ -47,7 +47,7 @@ var listView = new C3ListView.builder(ct, adapter);
 ![示例二维码](https://raw.githubusercontent.com/fengshangbin/ListView/master/be1c35d704b66028c9660d97c4373d87.png)
 # 更多功能
 设置数据loading视图
-```
+```html
 <script type="text/x-template" id="template-loading">
 	<svg viewBox="0 0 50 50" class="loading">
 		<defs>
@@ -59,13 +59,14 @@ var listView = new C3ListView.builder(ct, adapter);
 		<circle cx="25" cy="25" r="20" stroke-width="5" stroke="url(#linear)" fill="none" />
 	</svg>
 </script>
-
+```
+```javascript
 adapter.getLoadingHtml = function(){
 	return document.getElementById("template-loading").innerHTML;
 }
 ```
 设置到底下滑添加数据
-```
+```javascript
 listView.addEventListener("touchbottom",function(e){ //顶部上滑对应touchtop
 	console.log("touchbottom");
 	window.setTimeout(function(){
@@ -74,23 +75,23 @@ listView.addEventListener("touchbottom",function(e){ //顶部上滑对应touchto
 });
 ```
 设置当前为最后一页
-```
+```javascript
 adapter.isLastPage = true; //第一页对应isFirstPage
 ```
 设置/重置数据源
-```
+```javascript
 adapter.setData([1,2,3,4,1,2,3,4])
 ```
 向前追加数据
-```
+```javascript
 adapter.preAppendData([1,2])
 ```
 向后追加数据
-```
+```javascript
 adapter.appendData([1,2])
 ```
 更新数据
-```
+```javascript
 /*
 	data: 新数据
 	position: 被更新子项的索引
@@ -99,15 +100,15 @@ adapter.appendData([1,2])
 adapter.updateData(4,0)
 ```
 更新子项视图
-```
+```javascript
 adapter.updateView(view) //触发重新计算view的高度
 ```
 删除数据
-```
+```javascript
 adapter.removeData(0) //参数为被删除子项的索引
 ```
 获取数据
-```
+```javascript
 adapter.getData(0) //参数为子项的索引
 ```
 # 许可
