@@ -74,8 +74,8 @@
 			listView.addEventListener("touchtop",function(e){
 				console.log("touchtop");
 				window.setTimeout(function(){
-					adapter.preAppendData([1,2,3,4]);
-				},2000);
+					adapter.setData([4,3,2,1,4,3,2,1]);
+				},1000);
 			});
 			var page=0;
 			listView.addEventListener("touchbottom",function(e){

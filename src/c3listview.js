@@ -136,8 +136,8 @@
 						var pre=view.previousSibling||view.previousElementSibling;
 						view.outerHTML=item.html;
 						item.view=pre.nextSibling||pre.nextElementSibling;
-						updatedView(item,index);
-						onImageLoad(item,index);
+						updatedView(item);
+						onImageLoad(item);
 					}else{
 						item.view=null;
 					}
@@ -170,7 +170,7 @@
 				_adapter.addEventListener("updateView", function(event){
 					var item=event.data.item;
 					var index=event.data.index;
-					updatedView(item,index);
+					updatedView(item);
 				});
 				if(adapter.getCount()>0)doRender();
 			}
@@ -205,16 +205,16 @@
 				}
 				ticking = false;
 			}
-			function onImageLoad(item,index){
+			function onImageLoad(item){
 				//console.log(item.view);
 				var images = item.view.querySelectorAll("img");
 				for(var i=0; i<images.length; i++){
 					var img=images[i];
 					if(img.complete){
-						updatedView(item,index);
+						updatedView(item);
 					}else{
 						img.onload=function(){
-							updatedView(item,index);
+							updatedView(item);
 						};
 					}
 				}
@@ -238,8 +238,8 @@
 						topSpace.insertAdjacentHTML("afterend",item.html);
 						item.view=topSpace.nextSibling||topSpace.nextElementSibling;
 					}
-					updatedView(item,index);
-					onImageLoad(item,index);
+					updatedView(item);
+					onImageLoad(item);
 				}else{
 					if(isAfter){
 						_container.appendChild(item.view);
@@ -271,8 +271,12 @@
 					setTopHeight(topHeight+item.height);
 				}
 			}
-			function updatedView(item, index){
-				if(adapter.getItem(index)!=item)return;
+			function updatedView(item){
+				var index=item.index;
+				if(adapter.getItem(index)!=item){
+					console.error("index error on updated view at:", index);
+					return;
+				}
 				var view=item.view;
 				var height=view.offsetHeight;
 				var targetHeight,marginTop;
@@ -296,8 +300,11 @@
 				}else if(index<firstIndex){
 					setTopHeight(topHeight-targetHeight-oldHeight);
 				}
-				if(item.autoScroll==2){
-					that.scrollDown(targetHeight-oldHeight);
+				if(item.autoScroll==1 || item.autoScroll==2 || item.autoScroll==3){
+					var marginBottom=parseFloat(style.marginBottom.replace("px",""))*(item.autoScroll==2?2:-1);
+					that.scrollDown(targetHeight-oldHeight+marginBottom);
+					//console.log(item.autoScroll, targetHeight,oldHeight,marginBottom);
+					item.autoScroll=3;
 				}
 			}
 			function setTopHeight(value){
@@ -345,7 +352,14 @@
 			this.preAppendData=function(_data){
 				if(hasTopLoad){
 					hasTopLoad=false;
-					this.removeData(0);
+					if(_data==null||_data.length==0){
+						this.removeData(0);
+					}else{
+						var item=proxy.getItem(0);
+						item.autoScroll=1;
+						this.updateData(_data.pop(), 0);
+					}
+					//this.removeData(0);
 				}
 				if(_data==null||_data.length==0)return;
 				var len=_data.length;
@@ -354,6 +368,7 @@
 				for(var index in items){
 					index=parseInt(index);
 					tempItems[index+len]=items[index];
+					tempItems[index+len].index=index+len;
 				}
 				items=tempItems;
 				this.dispatchEvent(new C3Event("move",len));
@@ -365,14 +380,17 @@
 				var item=proxy.getItem(position);
 				if(item.view!=null){
 					item.html=this.getHtml(hasTopLoad?position-1:position).replace(/(^\s*)|(\s*$)/g, "");
+					if(item.autoScroll==3)item.autoScroll=0;
 					this.dispatchEvent(new C3Event("changePosition",position));
 				}
 			}
 			this.updateView=function(view){
 				for(var index in items){
 					index=parseInt(index);
-					if(items[index].view==view){
-						this.dispatchEvent(new C3Event("updateView",{item:items[index],index:index}));
+					var item=items[index];
+					if(item.view==view){
+						if(item.autoScroll==3)item.autoScroll=0;
+						this.dispatchEvent(new C3Event("updateView",{item:item,index:index}));
 						break;
 					}
 				}
@@ -410,10 +428,10 @@
 				getItem:function(position){
 					var item=items[position];
 					if(item==null){
-						items[position] = {view:null,height:0,autoScroll:0};
+						items[position] = {view:null,height:0,index:position,autoScroll:0};
 						if((position==0&&hasTopLoad)||(position==proxy.getCount()-1&&hasBottomLoad)){
 							items[position].html=that.getLoadingHtml().replace(/(^\s*)|(\s*$)/g, "");
-							items[position].autoScroll=hasTopLoad?1:2;
+							if(hasBottomLoad)items[position].autoScroll=2;
 						}else{
 							items[position].html=that.getHtml(hasTopLoad?position-1:position).replace(/(^\s*)|(\s*$)/g, "");
 						}
