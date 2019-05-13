@@ -1,101 +1,106 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-		<meta http-equiv="Expires" content="0">
-		<meta http-equiv="Pragma" content="no-cache">
-		<meta http-equiv="Cache-control" content="no-cache">
-		<meta http-equiv="Cache" content="no-cache">
-		<title>scroll test</title>
-		<style>
-			body,html{margin: 0; padding: 0;}
-			
-			#container div{
-				margin:10px; 
-				border: 1px solid #dedede;
-			}
-			.loading{
-				width: 50px;
-				height: 50px;
-				margin: 10px calc(50% - 25px);
-				animation: spin 1s linear infinite;
-			}
-			@keyframes spin {
-                from {
-                    transform: rotate(0deg);
-                }
-                to {
-                    transform: rotate(360deg);
-                }
-            }
-		</style>
-	</head>
-	<body>
-		<h1>This is a listview demo.</h1>
-		<div id="container"></div>
-		<script src="../src/c3listview.min.js"></script>
-		<script type="text/x-template" id="template-listview">
-			<div data-position="{$position}">
-				<span>{$preTxt}</span>
-				<img src="{$photo}" style="width:100%;">
-			</div>
-		</script>
-		<script type="text/x-template" id="template-loading">
-			<svg viewBox="0 0 50 50" class="loading">
-			 <defs>
-			   <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
-				 <stop offset="0%"   stop-color="#000" stop-opacity="1.0" />
-				 <stop offset="90%" stop-color="#000" stop-opacity="0" />
-			   </linearGradient>
-			 </defs>
-			 <circle cx="25" cy="25" r="20" stroke-width="5" stroke="url(#linear)" fill="none" />
-			</svg>
-		</script>
-		<script type="text/javascript">
-			var txt="因遭受该男子暴打，吴巨轮面部有血迹，头部出现明显不适，随后被送往医院进行医疗。据接诊的湖南航天医院急诊科主任黄扩军介绍，吴巨轮头部软组织损伤，有脑震荡体现，需住院观察医治。横遭此祸，吴巨轮感觉很冤枉，因为按照有关规定，他实在不能在同一个站点进行二次停泊。387路公交所属的长沙众旺有限责任公司运营科科长戴勇表示，按照行业规章，在同一个站点进行二次停泊或站外停靠都是违纪行为，因为这样会影响其他公交车进出站和一般车辆的通畅。针对年轻男子的打人行为，该公司选择了报警。20日，岳麓公安分局公布通知称，11月18日上午，一男子在搭乘387路公交时，因不满司机的服务态度，置车上乘客的性命于不顾，在车辆行进过程中暴打公交司机吴某，随后逃离现场。接到报警后，岳麓公安分局观沙岭派出所迅速展开初步调查，于11月20日8时将肇事男子夏某智归案。潇湘晨报记者了解到，夏某智是长沙本地人，也是公共交通行业的工作者，是一名的士司机。夏某智在警局内接受媒体采访时称，“我们上车看到司机的表情很不情愿，那个年纪大的乘客一直在跟他吵，司机说话也不好听”，“现在特别后悔，确实是自己太冲动了，没事找事似的”。现在夏某智涉案以危险方法危害公共安全犯罪被刑事拘留，案件还在进一步处理中。";
-			
-			var adapter=new C3ListView.adapter([1,2,3,4,1,2,3,4]);
-			adapter.getHtml=function(position){
-				var data=adapter.getData(position);
-				var temp=document.getElementById("template-listview").innerHTML;
-				var photo="images/"+data+".jpg";
-				var preTxt=getTxt();
-				temp=temp.replace("{$position}", position);
-				temp=temp.replace("{$preTxt}", preTxt);
-				temp=temp.replace("{$photo}", photo);
-				return temp;
-			}
-			adapter.getLoadingHtml=function(){
-				return document.getElementById("template-loading").innerHTML;
-			}
-			var listView=new C3ListView.builder(document.getElementById("container"), adapter);
-			
-			listView.addEventListener("touchtop",function(e){
-				console.log("touchtop");
-				window.setTimeout(function(){
-					adapter.setData([4,3,2,1,4,3,2,1]);
-				},1000);
-			});
-			var page=0;
-			listView.addEventListener("touchbottom",function(e){
-				console.log("touchbottom");
-				window.setTimeout(function(){
-					adapter.appendData([1,2,3,4]);
-					page++;
-					if(page==3)adapter.isLastPage=true;
-				},2000);
-			});
-			function getTxt(){
-				var len=Math.floor(Math.random()*txt.length);
-				var start=Math.floor(Math.random()*(txt.length-len));
-				return txt.substr(start,len);
-			}
-			document.getElementById("container").addEventListener("click",function(e){
-				var item=e.target.parentElement || e.target.parentNode;
-				item.getElementsByTagName("span")[0].innerHTML=getTxt();
-				adapter.updateView(item);
-			})
-		</script>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-control" content="no-cache" />
+    <meta http-equiv="Cache" content="no-cache" />
+    <title>scroll test</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+
+      #container div {
+        margin: 10px;
+        border: 1px solid #dedede;
+      }
+      .loading {
+        width: 50px;
+        height: 50px;
+        margin: 10px calc(50% - 25px);
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>This is a listview demo.</h1>
+    <div id="container"></div>
+    <script src="../src/c3listview.min.js"></script>
+    <script type="text/x-template" id="template-listview">
+      <div data-position="{$position}">
+      	<span>{$preTxt}</span>
+      	<img src="{$photo}" style="width:100%;">
+      </div>
+    </script>
+    <script type="text/x-template" id="template-loading">
+      <svg viewBox="0 0 50 50" class="loading">
+       <defs>
+         <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="0%">
+      	 <stop offset="0%"   stop-color="#000" stop-opacity="1.0" />
+      	 <stop offset="90%" stop-color="#000" stop-opacity="0" />
+         </linearGradient>
+       </defs>
+       <circle cx="25" cy="25" r="20" stroke-width="5" stroke="url(#linear)" fill="none" />
+      </svg>
+    </script>
+    <script type="text/javascript">
+      var txt =
+        '因遭受该男子暴打，吴巨轮面部有血迹，头部出现明显不适，随后被送往医院进行医疗。据接诊的湖南航天医院急诊科主任黄扩军介绍，吴巨轮头部软组织损伤，有脑震荡体现，需住院观察医治。横遭此祸，吴巨轮感觉很冤枉，因为按照有关规定，他实在不能在同一个站点进行二次停泊。387路公交所属的长沙众旺有限责任公司运营科科长戴勇表示，按照行业规章，在同一个站点进行二次停泊或站外停靠都是违纪行为，因为这样会影响其他公交车进出站和一般车辆的通畅。针对年轻男子的打人行为，该公司选择了报警。20日，岳麓公安分局公布通知称，11月18日上午，一男子在搭乘387路公交时，因不满司机的服务态度，置车上乘客的性命于不顾，在车辆行进过程中暴打公交司机吴某，随后逃离现场。接到报警后，岳麓公安分局观沙岭派出所迅速展开初步调查，于11月20日8时将肇事男子夏某智归案。潇湘晨报记者了解到，夏某智是长沙本地人，也是公共交通行业的工作者，是一名的士司机。夏某智在警局内接受媒体采访时称，“我们上车看到司机的表情很不情愿，那个年纪大的乘客一直在跟他吵，司机说话也不好听”，“现在特别后悔，确实是自己太冲动了，没事找事似的”。现在夏某智涉案以危险方法危害公共安全犯罪被刑事拘留，案件还在进一步处理中。';
+
+      var adapter = new C3ListView.adapter([1, 2, 3, 4, 1, 2, 3, 4]);
+      adapter.getHtml = function(position) {
+        var data = adapter.getData(position);
+        var temp = document.getElementById('template-listview').innerHTML;
+        var photo = 'http://www.fengshangbin.com/html/listview/examples/images/' + data + '.jpg';
+        var preTxt = getTxt();
+        temp = temp.replace('{$position}', position);
+        temp = temp.replace('{$preTxt}', preTxt);
+        temp = temp.replace('{$photo}', photo);
+        return temp;
+      };
+      adapter.getLoadingHtml = function() {
+        return document.getElementById('template-loading').innerHTML;
+      };
+      var listView = new C3ListView.builder(document.getElementById('container'), adapter);
+
+      listView.addEventListener('touchtop', function(e) {
+        console.log('touchtop');
+        window.setTimeout(function() {
+          adapter.setData([4, 3, 2, 1, 4, 3, 2, 1]);
+        }, 1000);
+      });
+      var page = 0;
+      listView.addEventListener('touchbottom', function(e) {
+        console.log('touchbottom');
+        window.setTimeout(function() {
+          adapter.appendData([1, 2, 3, 4]);
+          page++;
+          if (page == 3) adapter.isLastPage = true;
+        }, 2000);
+      });
+      function getTxt() {
+        var len = Math.floor(Math.random() * txt.length);
+        var start = Math.floor(Math.random() * (txt.length - len));
+        return txt.substr(start, len);
+      }
+      document.getElementById('container').addEventListener('click', function(e) {
+        var item = e.target.parentElement || e.target.parentNode;
+        item.getElementsByTagName('span')[0].innerHTML = getTxt();
+        adapter.updateView(item);
+      });
+    </script>
+  </body>
 </html>
