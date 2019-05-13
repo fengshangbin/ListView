@@ -64,7 +64,7 @@
       adapter.getHtml = function(position) {
         var data = adapter.getData(position);
         var temp = document.getElementById('template-listview').innerHTML;
-        var photo = 'http://www.fengshangbin.com/html/listview/examples/images/' + data + '.jpg';
+        var photo = 'images/' + data + '.jpg';
         var preTxt = getTxt();
         temp = temp.replace('{$position}', position);
         temp = temp.replace('{$preTxt}', preTxt);
